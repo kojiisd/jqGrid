@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>jqGrid Demos</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="jqGrid/css/ui.jqgrid.css" />
+<script type="text/javascript" src="jquery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="jqGrid/i18n/grid.locale-ja.js"></script>
+<script type="text/javascript" src="jqGrid/jquery.jqGrid.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+	var colModelSettings= [
+		{name:'name',index:'name',width:150,align:'center',classes:'name_class',frozen:true},
+		{name:'age',index:'age',width:100,align:'center',classes:'age_class'},
+		{name:'local',index:'local',width:100,align:'center',classes:'local_class'},
+		{name:'hobby',index:'hobby',width:100,align:'center',classes:'hobby_class'},
+		{name:'note1',index:'note1',width:200,align:'center',classes:'note1_class'},
+		{name:'note2',index:'note2',width:200,align:'center',classes:'note2_class'},
+		{name:'note3',index:'note3',width:200,align:'center',classes:'note3_class'}
+	];
+	 
+	var colNames = ['name','age','local','hobby','note1','note2','note3'];
+	 
+	var sampleData = [
+		{name:"K.I",age:"20",local:"Japan",hobby:"Tennis",note1:"",note2:"",note3:""},
+		{name:"ishida",age:"20",local:"Japan",hobby:"Soccer",note1:"",note2:"",note3:""},
+		{name:"ishida1",age:"20",local:"Japan",hobby:"BaseBall",note1:"",note2:"",note3:""},
+		{name:"ishida2",age:"20",local:"Japan",hobby:"TableTennis",note1:"",note2:"",note3:""},
+		{name:"ishida3",age:"20",local:"Japan",hobby:"Soccer",note1:"",note2:"",note3:""},
+		{name:"ishida4",age:"20",local:"Japan",hobby:"Swimming",note1:"",note2:"",note3:""},
+		{name:"ishida5",age:"20",local:"Japan",hobby:"Programing",note1:"",note2:"",note3:""},
+		{name:"ishida6",age:"20",local:"Japan",hobby:"BasketBall",note1:"",note2:"",note3:""},
+		{name:"ishida7",age:"20",local:"Japan",hobby:"Soccer",note1:"",note2:"",note3:""}
+	];
+
+var isLoaded = false;
+
+	$("#sample1").jqGrid({
+		data:sampleData,
+		datatype : 'local',
+		colNames : colNames,
+		colModel : colModelSettings,
+		rowNum : 5,
+		rowList : [5, 10, 20],
+		caption : "Sample Display",
+		width : 700,
+		pager : 'pager1',
+		rownumbers: true,
+		shrinkToFit : false,
+		viewrecords: true,
+		sortorder: "asc",
+		gridComplete: function(){
+			if (!isLoaded == true){
+				$("#sample1").jqGrid('setFrozenColumns');
+				isLoaded = true;
+			}
+		},
+		height : 'auto'
+	});
+
+	$("#sample1").jqGrid('navGrid','#pager1',{
+		add:false,
+		edit:false,
+		del:false,
+		search:{	
+			odata : ['equal', 'not equal', 'less', 'less or equal',
+							 'greater','greater or equal', 'begins with',
+							 'does not begin with','is in','is not in','ends with',
+							 'does not end with','contains','does not contain']
+		}
+	},
+	{},
+	{},
+	{},
+	{multipleSearch: true,
+	beforeShowSearch : function(form){
+			$('.ui-search',form).click(function(){
+			alert("aaa");
+			});
+		}
+	});
+});
+</script>
+</head>
+
+<body>
+<table id="sample1"></table>
+<div id = "pager1"></div>
+
+</body>
+</html>
