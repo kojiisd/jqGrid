@@ -75,13 +75,7 @@ var isLoaded = false;
 	{},
 	{},
 	{},
-	{multipleSearch: true,
-	beforeShowSearch : function(form){
-			$('.ui-search',form).click(function(){
-			alert("aaa");
-			});
-		}
-	});
+	{multipleSearch: true});
 });
 </script>
 </head>
@@ -90,5 +84,17 @@ var isLoaded = false;
 <table id="sample1"></table>
 <div id = "pager1"></div>
 
+<input type="text" name="searchValue" id="searchValue" />
+<input type="button" name="search" id="search" value="検索" onclick="search();" />
 </body>
+
+<script type="text/javascript">
+function search() {
+	if (filters == ""){
+		return;
+	}
+	$('#sample1').jqGrid('setGridParam',{postData : {"filters": filters}});
+}
+</script>
+
 </html>
