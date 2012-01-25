@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>jqGrid Demos</title>
 <link rel="stylesheet" type="text/css" media="screen" href="css/ui-darkness/jquery-ui-1.8.16.custom.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="jqGrid/css/ui.jqgrid.css" />
@@ -65,17 +66,28 @@ var isLoaded = false;
 		add:false,
 		edit:false,
 		del:false,
-		search:{	
-			odata : ['equal', 'not equal', 'less', 'less or equal',
-							 'greater','greater or equal', 'begins with',
-							 'does not begin with','is in','is not in','ends with',
-							 'does not end with','contains','does not contain']
-		}
+		search:true
 	},
 	{},
 	{},
 	{},
-	{multipleSearch: true});
+	{multipleSearch: true,
+	closeOnEscape: true,
+		beforeShowSearch: function(){
+			$('.ui-search').click(function(){
+				alert("検索ボタンがクリックされました。");
+				var filters = $('#sample1').jqGrid('getGridParam', 'postData');
+				$('#filters').val(filters.filters);
+			});
+			$('input:text').click(function(){
+				alert("フィールドがクリックされました。");
+			});
+		},
+		onClose: function(){
+			$('input:text').unbind('click');
+		}
+	});
+search();
 });
 </script>
 </head>
@@ -84,16 +96,18 @@ var isLoaded = false;
 <table id="sample1"></table>
 <div id = "pager1"></div>
 
-<input type="text" name="searchValue" id="searchValue" />
-<input type="button" name="search" id="search" value="検索" onclick="search();" />
+<input type="text" id="test" />
+<input type="hidden" id="filters" />
 </body>
 
 <script type="text/javascript">
 function search() {
-	if (filters == ""){
+	alert($('#filters').val());
+	if ($('#filters').val() == ""){
 		return;
 	}
-	$('#sample1').jqGrid('setGridParam',{postData : {"filters": filters}});
+	$('#sample1').jqGrid('setGridParam',{postData : {"filters": $.parseJSON($('#filters').val())}});
+	$('#sample1').triggerSearch();
 }
 </script>
 
